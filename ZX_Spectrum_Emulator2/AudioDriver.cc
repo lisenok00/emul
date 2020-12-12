@@ -31,7 +31,7 @@ AudioDriver::AudioDriver()
 
 AudioDriver::~AudioDriver()
 {
-	SDL_PauseAudioDevice(0, 1);
+	SDL_PauseAudioDevice(_dev, 1);
 	std::cout << "-Закрываем-" << std::endl;
 	SDL_CloseAudioDevice(_dev);
 }

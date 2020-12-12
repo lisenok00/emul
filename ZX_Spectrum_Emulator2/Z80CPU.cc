@@ -251,7 +251,7 @@ void Z80CPU::load_state_z80(const char *filename)
 	z80f.close();
 }
 
-void Z80CPU::load_state_sna_libspectrum(const char * filename)
+/*void Z80CPU::load_state_sna_libspectrum(const char * filename)
 {
 	std::vector<uint8_t> buffer;
 	std::fstream sna;
@@ -311,9 +311,9 @@ void Z80CPU::load_state_sna_libspectrum(const char * filename)
 
 
 	libspectrum_snap_free(snap);
-}
+}*/
 
-void Z80CPU::load_state_z80_libspectrum(const char * filename)
+/*void Z80CPU::load_state_z80_libspectrum(const char * filename)
 {
 	std::vector<uint8_t> buffer;
 	std::fstream z80file;
@@ -373,7 +373,7 @@ void Z80CPU::load_state_z80_libspectrum(const char * filename)
 
 
 	libspectrum_snap_free(snap);
-}
+}*/
 
 /*void Z80CPU::load_state_tape_libspectrum(const char * filename)
 {

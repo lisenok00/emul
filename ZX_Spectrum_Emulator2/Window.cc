@@ -102,7 +102,7 @@ void Window::handle_event(const SDL_Event &event)
 		if (event.key.keysym.scancode == SDL_SCANCODE_F10)
 			cpu.load_state_sna("jetpac.sna");
 		if (event.key.keysym.scancode == SDL_SCANCODE_F11)
-			cpu.load_state_z80_libspectrum("nebulus.z80");
+			//cpu.load_state_z80_libspectrum("nebulus.z80");
 
 		{
 			auto k = s_keymap.find(event.key.keysym.scancode);
@@ -181,7 +181,7 @@ void Window::render()
 			uint8_t attr = ram.read(attr_addr);
 			uint8_t paper_col = ((attr >> 3) & 0x07) | ((attr & 0x40) >> 3);
 			uint8_t ink_col =   (attr & 0x07) | ((attr & 0x40) >> 3);
-			uint8_t flash = (paper_col >> 7) & 1;
+			//uint8_t flash = (paper_col >> 7) & 1;
 
 			for (unsigned px = 0; px < 8; ++px) {
 

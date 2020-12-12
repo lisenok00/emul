@@ -3,7 +3,7 @@
 
 #include "Memory.h"
 #include "libz80\z80.h"
-#include <libspectrum.h>
+//#include <libspectrum.h>
 
  byte In_mem	(void* param, ushort address);
  void Out_mem (void* param, ushort address, byte data);

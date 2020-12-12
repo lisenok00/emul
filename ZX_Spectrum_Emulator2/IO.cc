@@ -6,16 +6,18 @@
 		tp_now = clk::now();
  * */
 #include "IO.h"
-#include <chrono>
-
+#include <iostream>
 void IO::write(unsigned address, uint8_t value)
 {
 	if ((address & 1) == 0) {
 		_port_fe = value;
-
+		std::cout << " IO.cc" << std::endl;
 			int lev = (_port_fe >> 3) & 0x03;//4?
+			///
+			std::cout << lev << " IO1" << std::endl;
+			///
 			switch(lev) {
-				case 0x00: _adrv->set_level(-16384 - 8192); break;
+				case 0x00: _adrv->set_level(-16384 - 8192); std::cout << lev << " IO1" << std::endl; break;
 				case 0x01: _adrv->set_level(-16384); break;
 				case 0x02: _adrv->set_level(16384); break;
 				case 0x03: _adrv->set_level(16384 + 8192); break;
@@ -27,7 +29,7 @@ void IO::write(unsigned address, uint8_t value)
 
 uint8_t IO::read(unsigned address) const
 {
-	uint8_t tap= (address >> 6);
+	//uint8_t tap= (address >> 6);
 	uint8_t a = (address >> 8);
 	uint8_t p = (address & 0xff);
 

@@ -2,8 +2,8 @@
 #define AUDIODRIVER_H_
 
 #include <SDL2/SDL.h>
-#include <stack>
-
+//#include <stack>
+#include <queue>
 class AudioDriver
 {
 protected:
@@ -13,8 +13,9 @@ protected:
 
 	//using clock = std::chrono::high_resolution_clock;
 	//clock::time_point _vr_audio;
-	std::stack<int> stack;
+	//std::stack<int> stack;
 	short _level;
+	std::queue<int> queue;
 public:
 	AudioDriver();
 	~AudioDriver();

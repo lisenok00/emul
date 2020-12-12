@@ -25,7 +25,7 @@ public:
 
 	void keydown(unsigned row, unsigned col);
 	void keyup(unsigned row, unsigned col);
-	//void set_ear(uint8_t ear) { _ear = ear & 1; }/*****/
+	void set_ear(uint8_t ear) { _ear = ear & 1; }/*****/
 };
 
 

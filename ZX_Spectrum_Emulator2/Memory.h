@@ -71,6 +71,10 @@ public:
 	void write(unsigned address, uint8_t value, bool io = false);
 	uint8_t read(unsigned address, bool io = false);
 
+	uint32_t translate_mem_addr(uint16_t address);
+
+
+
 	void write16(unsigned address, uint16_t value);
 	uint16_t read16(unsigned address);
 

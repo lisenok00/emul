@@ -41,7 +41,7 @@ public:
 
 protected:
 	ROM rom { "128.ROM" };//
-	RAM ram { 17 };
+	RAM ram { 16 };
 	IO io { &_adrv };
 	AddressSpace system_bus { ram, rom, io };
 	Z80CPU cpu { system_bus };

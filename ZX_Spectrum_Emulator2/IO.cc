@@ -11,7 +11,6 @@ void IO::write(unsigned address, uint8_t value)
 {
 	if ((address & 1) == 0) {
 		_port_fe = value;
-		std::cout << " IO.cc" << std::endl;
 			int lev = (_port_fe >> 3) & 0x03;//4?
 			switch(lev) {
 				case 0x00: _adrv->set_level(-16384 - 8192); break;
@@ -20,9 +19,8 @@ void IO::write(unsigned address, uint8_t value)
 				case 0x03: _adrv->set_level(16384 + 8192); break;
 				default: ;
 			}
-	}else if((address & 4) == 0){
+	}else if((address & 0x8002) == 0){
 		_port_7ffd = value;
-		std::cout <<"new port"<< std::endl;
 	}
 }
 

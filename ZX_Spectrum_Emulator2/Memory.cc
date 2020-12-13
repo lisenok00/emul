@@ -10,58 +10,114 @@ ROM::ROM(const char * filename)
 	romfile.read(reinterpret_cast<char*>(&_contents[0]), _contents.size());
 	_addr_mask = _contents.size() - 1;
 }
-
-void AddressSpace::write(unsigned address, uint8_t value, bool io)
-{
-		if (io == true)
-			_io.write(translate_mem_addr(address), value);
-		else
-			_ram.write(translate_mem_addr(address), value);
-//	if (io == true)
-//		_io.write(address, value);//_io.write(translate_mem_addr(address), value);
-//	else
-//		_ram.write(address, value);
-}
-uint8_t AddressSpace::read(unsigned address, bool io)
-{
+void AddressSpace::write(unsigned address, uint8_t value, bool io) {
 	if (io == true)
-		return _io.read(translate_mem_addr(address));//_io.write(translate_mem_addr(address));
-	else {
-		if (address < 32768)
-			return _rom.read(translate_mem_addr(address));
-		else
-			return _ram.read(translate_mem_addr(address));
+		_io.write(address, value);
+	else{
+		unsigned offset = address & 0x3fff;
+		unsigned page = address >> 14;
+
+		switch (page) {
+		case 0:
+			break;
+		case 1:
+			_ram.write((_io.vid() ? 7 : 5) << 14 | offset, value);
+			break;
+		case 2:
+			_ram.write( 2 << 14 | offset, value);
+			break;
+		case 3:
+			_ram.write(_io.ram() << 14 | offset, value);
+			break;
+		default:
+			break;
 		}
+	}
+
+}
+
+uint8_t AddressSpace::read(unsigned address, bool io) {
+
+	if (io == true)
+		return _io.read(address);
+	else{
+			unsigned offset = address & 0x3fff;
+			unsigned page = (address >> 14) & 0x03;
+
+			switch (page) {
+			case 0:
+				return _rom.read(_io.rom() << 14 | offset);
+				break;
+			case 1:
+				return _ram.read((_io.vid() ? 7 : 5) << 14 | offset);
+				break;
+			case 2:
+				return _ram.read(2 << 14 | offset);
+				break;
+			case 3:
+				return _ram.read(_io.ram() << 14 | offset);
+				break;
+			default:
+				return 0;
+				break;
+			}
+
+		}
+}
+
+
+
+//void AddressSpace::write(unsigned address, uint8_t value, bool io)
+//{
+//		if (io == true)
+//			_io.write(translate_mem_addr(address), value);
+//		else
+//			_ram.write(translate_mem_addr(address), value);
+////	if (io == true)
+////		_io.write(address, value);//_io.write(translate_mem_addr(address), value);
+////	else
+////		_ram.write(address, value);
+//}
+//uint8_t AddressSpace::read(unsigned address, bool io)
+//{
 //	if (io == true)
-//		return _io.read(address);//_io.write(translate_mem_addr(address));
+//		return _io.read(translate_mem_addr(address));//_io.write(translate_mem_addr(address));
 //	else {
 //		if (address < 32768)
-//			return _rom.read(address);
+//			return _rom.read(translate_mem_addr(address));
 //		else
-//			return _ram.read(address);
-//	}
-}
-uint32_t AddressSpace::translate_mem_addr(uint16_t address)
-{
-	uint32_t offset = address & 0x3fff;
-	uint32_t real_address = offset;
-	unsigned page = (address >> 14)&0x03;
-	if(page == 0){      //PZU
-		if(_io.rom_page() == 0)
-			real_address |= 0x20000;
-		else
-			real_address |= 0x24000;
-	}else if(page == 1){   //video
-		if (_io.vid_page() == 0)
-			real_address |= 0x14000;
-		else
-			real_address |= 0x1c000;
-	}else if(page == 2)    //ozu
-		real_address |= 0x08000;
-	else
-		real_address |= _io.ram_page() << 14;
-	return real_address;
-}
+//			return _ram.read(translate_mem_addr(address));
+//		}
+////	if (io == true)
+////		return _io.read(address);//_io.write(translate_mem_addr(address));
+////	else {
+////		if (address < 32768)
+////			return _rom.read(address);
+////		else
+////			return _ram.read(address);
+////	}
+//}
+//uint32_t AddressSpace::translate_mem_addr(uint16_t address)
+//{
+//	uint32_t offset = address & 0x3fff;
+//	uint32_t real_address = offset;
+//	unsigned page = (address >> 14)&0x03;
+//	if(page == 0){      //PZU
+//		if(_io.rom_page() == 0)
+//			real_address |= 0x20000;
+//		else
+//			real_address |= 0x24000;
+//	}else if(page == 1){   //video
+//		if (_io.vid_page() == 0)
+//			real_address |= 0x14000;
+//		else
+//			real_address |= 0x1c000;
+//	}else if(page == 2)    //ozu
+//		real_address |= 0x08000;
+//	else
+//		real_address |= _io.ram_page() << 14;
+//	return real_address;
+//}
 
 /*void AddressSpace::write16(unsigned address, uint16_t value)
 {

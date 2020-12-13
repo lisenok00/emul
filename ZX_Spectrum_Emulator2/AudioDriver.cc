@@ -3,7 +3,6 @@
 
 void real_audiodriver_cb(void * data, Uint8 * stream, int len)
 {
-	std::cout << "-real_audiodriver-" << std::endl;
 	reinterpret_cast<AudioDriver*>(data)->callback(
 			reinterpret_cast<short *>(stream),
 			size_t(len));
@@ -17,13 +16,11 @@ AudioDriver::AudioDriver()
 	_spec.format = AUDIO_S16;
 	_spec.samples = 128;
 	_spec.freq =  11025;
-	std::cout << "-Настройка-" << std::endl;
 
 	SDL_AudioSpec obt;
 
 	_dev = SDL_OpenAudioDevice(nullptr, 0, &_spec, &obt, 0);
 	SDL_PauseAudioDevice(_dev, 0);
-	std::cout << "-Снимаем с паузы-" << std::endl;
 	//_vr_audio = clock::now()+std::chrono::seconds(2);
 
 	_level = 0;
@@ -32,7 +29,6 @@ AudioDriver::AudioDriver()
 AudioDriver::~AudioDriver()
 {
 	SDL_PauseAudioDevice(_dev, 1);
-	std::cout << "-Закрываем-" << std::endl;
 	SDL_CloseAudioDevice(_dev);
 }
 

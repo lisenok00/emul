@@ -14,7 +14,7 @@ ROM::ROM(const char * filename)
 void AddressSpace::write(unsigned address, uint8_t value, bool io)
 {
 	if (io == true)
-		_io.write(address, value);
+		_io.write(address, value);//_io.write(translate_mem_addr(address), value);
 	else
 		_ram.write(address, value);
 }
@@ -22,16 +22,16 @@ void AddressSpace::write(unsigned address, uint8_t value, bool io)
 uint8_t AddressSpace::read(unsigned address, bool io)
 {
 	if (io == true)
-		return _io.read(address);
+		return _io.read(address);//_io.write(translate_mem_addr(address));
 	else {
-		if (address < 16384)
+		if (address < 32768)
 			return _rom.read(address);
 		else
 			return _ram.read(address);
 	}
 }
 
-void AddressSpace::write16(unsigned address, uint16_t value)
+/*void AddressSpace::write16(unsigned address, uint16_t value)
 {
 	write(address,     (value >> 0) & 0x00ff);
 	write(address + 1, (value >> 8) & 0x00ff);
@@ -43,4 +43,4 @@ uint16_t AddressSpace::read16(unsigned address)
 	result |= read(address);
 	result |= uint16_t(read(address)) << 8;
 	return result;
-}
+}*/

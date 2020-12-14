@@ -101,7 +101,7 @@ void Window::handle_event(const SDL_Event &event)
 
 		if (event.key.keysym.scancode == SDL_SCANCODE_F10)
 			cpu.load_state_sna("jetpac.sna");
-		if (event.key.keysym.scancode == SDL_SCANCODE_F11)
+		//if (event.key.keysym.scancode == SDL_SCANCODE_F11)
 			//cpu.load_state_z80_libspectrum("nebulus.z80");
 
 		{
